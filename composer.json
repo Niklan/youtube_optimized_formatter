@@ -1,0 +1,17 @@
+{
+  "name": "drupal/youtube_optimized_formatter",
+  "description": "Formatter for YouTube Field.",
+  "type": "drupal-module",
+  "homepage": "https://github.com/Niklan/youtube_optimized_formatter",
+  "authors": [
+    {
+      "name": "Nikita Malyshev (niklan)",
+      "homepage": "https://niklan.net"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/Niklan/youtube_optimized_formatter/issues"
+  },
+  "license": "GPL-2.0+",
+  "require": { }
+}

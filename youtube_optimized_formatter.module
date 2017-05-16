@@ -1,0 +1,110 @@
+<?php
+
+/**
+ * @file
+ * Main file for hooks and custom functions.
+ */
+
+use Drupal\Component\Utility\Html;
+use Drupal\Core\Link;
+use Drupal\Core\Template\Attribute;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_theme().
+ */
+function youtube_optimized_formatter_theme($existing, $type, $theme, $path) {
+  return [
+    'youtube_video_optimized' => [
+      'variables' => array(
+        'video_id' => NULL,
+        'entity_title' => NULL,
+        'settings' => [],
+      ),
+    ],
+  ];
+}
+
+/**
+ * Prepares variables for the YouTube Video template.
+ *
+ * Default template: youtube-video-optimized.html.twig.
+ */
+function template_preprocess_youtube_video_optimized(&$variables) {
+  $attributes = new Attribute();
+  $variables['settings'] += array(
+    'youtube_suggest' => \Drupal::config('youtube.settings')->get('youtube_suggest'),
+    'youtube_privacy' => \Drupal::config('youtube.settings')->get('youtube_privacy'),
+    'youtube_player_class' => \Drupal::config('youtube.settings')->get('youtube_player_class'),
+    'youtube_modestbranding' => \Drupal::config('youtube.settings')->get('youtube_modestbranding'),
+    'youtube_theme' => \Drupal::config('youtube.settings')->get('youtube_theme'),
+    'youtube_color' => \Drupal::config('youtube.settings')->get('youtube_color'),
+    'youtube_enablejsapi' => \Drupal::config('youtube.settings')->get('youtube_enablejsapi'),
+    'youtube_wmode' => \Drupal::config('youtube.settings')->get('youtube_wmode'),
+  );
+
+  $attributes->setAttribute('data-video-id', $variables['video_id']);
+  if (!$variables['settings']['youtube_suggest']) {
+    $attributes->setAttribute('data-rel', 0);
+  }
+  if ($variables['settings']['youtube_modestbranding']) {
+    $attributes->setAttribute('data-modestbranding', 1);
+  }
+  if ($variables['settings']['youtube_theme']) {
+    $attributes->setAttribute('data-theme', 'light');
+  }
+  if ($variables['settings']['youtube_color']) {
+    $attributes->setAttribute('data-color', 'white');
+  }
+  if ($variables['settings']['youtube_enablejsapi']) {
+    global $base_root;
+    $attributes->setAttribute('data-enablejsapi', 1);
+    $attributes->setAttribute('data-origin', $base_root);
+  }
+  if ($variables['settings']['youtube_wmode']) {
+    $attributes->setAttribute('data-wmode', 'opaque');
+  }
+  if ($variables['settings']['youtube_autoplay']) {
+    $attributes->setAttribute('data-autoplay', 1);
+  }
+  if ($variables['settings']['youtube_loop']) {
+    $attributes->setAttribute('data-loop', 1);
+    $attributes->setAttribute('data-playlist', $variables['video_id']);
+  }
+  if ($variables['settings']['youtube_showinfo']) {
+    $attributes->setAttribute('data-showinfo', 0);
+  }
+  if ($variables['settings']['youtube_controls']) {
+    $attributes->setAttribute('data-controls', 0);
+  }
+  if ($variables['settings']['youtube_autohide']) {
+    $attributes->setAttribute('data-autohide', 1);
+  }
+  if ($variables['settings']['youtube_iv_load_policy']) {
+    $attributes->setAttribute('data-iv_load_policy', 3);
+  }
+
+  // Use the module's privacy configuration to determine the domain.
+  if ($variables['settings']['youtube_privacy']) {
+    $attributes->setAttribute('data-domain', 'youtube-nocookie.com');
+  }
+
+  $size = $variables['settings']['youtube_size'];
+  $width = $variables['settings']['youtube_width'];
+  $height = $variables['settings']['youtube_height'];
+  $dimensions = youtube_get_dimensions($size, $width, $height);
+  $attributes->setAttribute('data-width', $dimensions['width']);
+  $attributes->setAttribute('data-height', $dimensions['height']);
+
+  if ($size != 'responsive') {
+    // @TODO style generator for width and height.
+  }
+
+  // Add classes to the wrapping element.
+  $attributes->addClass('youtube-optimized');
+  if ($size == 'responsive') {
+    $attributes->addClass('youtube-optimized--responsive');
+  }
+
+  $variables['attributes'] = $attributes;
+}

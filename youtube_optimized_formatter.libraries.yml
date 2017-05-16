@@ -1,0 +1,14 @@
+youtube_optimized.js:
+  version: VERSION
+  js:
+    js/youtube-optimized.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/jquery.once
+
+youtube_optimized.css:
+  version: VERSION
+  css:
+    theme:
+      css/youtube-optimized.css: {}

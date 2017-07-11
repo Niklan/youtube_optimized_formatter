@@ -1,7 +1,7 @@
 {
   "name": "drupal/youtube_optimized_formatter",
   "description": "Formatter for YouTube Field.",
-  "type": "drupal-module",
+  "type": "drupal-custom-module",
   "homepage": "https://github.com/Niklan/youtube_optimized_formatter",
   "authors": [
     {

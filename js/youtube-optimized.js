@@ -20,10 +20,10 @@
 
       const setPreviewYouTube = function ($element, data) {
         const previewUrls = {
-          0: `//img.youtube.com/vi/${data.videoId}/default.jpg`,
+          0: `//img.youtube.com/vi/${data.videoId}/mqdefault.jpg`,
           320: `//img.youtube.com/vi/${data.videoId}/mqdefault.jpg`,
           480: `//img.youtube.com/vi/${data.videoId}/hqdefault.jpg`,
-          640: `//img.youtube.com/vi/${data.videoId}/sddefault.jpg`,
+          640: `//img.youtube.com/vi/${data.videoId}/mqdefault.jpg`,
           1280: `//img.youtube.com/vi/${data.videoId}/maxresdefault.jpg`,
         };
         const elementWidth = $element.innerWidth();
